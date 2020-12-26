@@ -26,8 +26,8 @@
 
     <script>
       let pattern = [
-        [2, 0, 0],
-        [0, 1, 0],
+        [0, 0, 0],
+        [0, 0, 0],
         [0, 0, 0],
       ];
 
@@ -50,15 +50,26 @@
         }
       }
 
-    function move(x, y) {
+      let sum = 0;
+      function move(x, y) {
+        if(pattern[y][x] !== 0) {
+          return;
+        }
+        sum++;
         pattern[y][x] = value;
         if (check(pattern, value)) {
           alert(value === 2 ? "❌ is winner!" : "⭕️ is winner!");
+          reset();
+          return;
         }
         value = 3 - value;
+        if(sum === 9) {
+          alert("Game Over!")
+          reset();
+        }
         show();
-        if(willWin(pattern, value)) {
-            console.log(value === 2 ? "❌ will winner!" : "⭕️ will winner!");
+        if (willWin(pattern, value)) {
+          console.log(value === 2 ? "❌ will winner!" : "⭕️ will winner!");
         }
         console.log(pattern);
       }
@@ -96,7 +107,7 @@
             }
           }
           if (flag) {
-            return ture;
+            return true;
           }
         }
 
@@ -114,26 +125,35 @@
         return false;
       }
 
-
       function clone(pattern) {
-          return JSON.parse(JSON.stringify(pattern));
+        return JSON.parse(JSON.stringify(pattern));
       }
 
       function willWin(pattern, value) {
-          for(let i = 0; i < 3; i++) {
-              for(let j = 0; j < 3; j++) {
-                  if(pattern[i][j]) {
-                      continue;
-                  }
-                  let tmp = clone(pattern);
-                  tmp[i][j] = value;
-                  if(check(tmp, value)) {
-                      return true;
-                  }
-              }
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (pattern[i][j]) {
+              continue;
+            }
+            let tmp = clone(pattern);
+            tmp[i][j] = value;
+            if (check(tmp, value)) {
+              return true;
+            }
           }
+        }
 
-          return false;
+        return false;
+      }
+
+      function reset() {
+        sum = 0;
+        pattern = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ];
+      show();
       }
 
       show();
