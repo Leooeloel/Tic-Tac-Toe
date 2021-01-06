@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .cell {
+      display: inline-block;
+      height: 6px;
+      width: 6px;
+      font-size: 13px;
+      background-color: gray;
+      border-bottom: 1px solid white;
+      border-right: 1px solid white;
+    }
+
+    #container {
+      font-size: 0;
+      width: 700px;
+    }
+  </style>
+  <body>
+    <div id="container"></div>
+    <button onclick="localStorage['map'] = JSON.stringify(map)">Save</button>
+
+    <script>
+      let map = Array(10000).fill(0);
+      let container = document.getElementById("container");
+
+      for (let i = 0; i < 100; i++) {
+        for (let j = 0; j < 100; j++) {
+          let cell = document.createElement("div");
+          cell.classList.add("cell");
+
+          if (map[100 * i + j] === 1) {
+            cell.style.backgroundColor = "black";
+          }
+
+          cell.addEventListener("mousemove", () => {
+            console.log(i, j);
+            if (1) {
+              cell.style.backgroundColor = "";
+              map[100 * i + j] = 0;
+            } else {
+              cell.style.backgroundColor = "black";
+              map[100 * i + j] = 1;
+            }
+          });
+          container.appendChild(cell);
+        }
+        // container.appendChild(document.createElement("br"));
+      }
+    </script>
+  </body>
+</html>
